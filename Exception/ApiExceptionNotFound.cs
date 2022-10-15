@@ -20,7 +20,19 @@ public class ApiExceptionNotFound : ApiException, IExamplesProvider<ApiException
     /// <summary>
     ///     This method instantiates an empty 404 - Not Found API error
     /// </summary>
-    public  ApiExceptionNotFound() : base(HttpStatusCode.NotFound) { }
+    public ApiExceptionNotFound() : base(HttpStatusCode.NotFound)
+    {
+    }
+
+    /// <summary>
+    ///     This method instantiates a throwable 404 - Not Found API error with a <paramref name="message" /> and optional <paramref name="innerException" />
+    /// </summary>
+    /// <param name="message">The message describing what happened</param>
+    /// <param name="innerException">Optional, exception before this one</param>
+    public ApiExceptionNotFound(string message, System.Exception innerException = null) : base(HttpStatusCode.NotFound,
+        message, innerException)
+    {
+    }
 
     /// <summary>
     ///     This method generates a example instance of this type

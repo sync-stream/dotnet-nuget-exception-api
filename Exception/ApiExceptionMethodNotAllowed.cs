@@ -20,7 +20,19 @@ public class ApiExceptionMethodNotAllowed : ApiException, IExamplesProvider<ApiE
     /// <summary>
     ///     This method instantiates an empty 405 - Method Not Allowed API error
     /// </summary>
-    public  ApiExceptionMethodNotAllowed() : base(HttpStatusCode.MethodNotAllowed) { }
+    public ApiExceptionMethodNotAllowed() : base(HttpStatusCode.MethodNotAllowed)
+    {
+    }
+
+    /// <summary>
+    ///     This method instantiates a throwable 405 - Method Not Allowed API error with a <paramref name="message" /> and optional <paramref name="innerException" />
+    /// </summary>
+    /// <param name="message">The message describing what happened</param>
+    /// <param name="innerException">Optional, exception before this one</param>
+    public ApiExceptionMethodNotAllowed(string message, System.Exception innerException = null) : base(
+        HttpStatusCode.MethodNotAllowed, message, innerException)
+    {
+    }
 
     /// <summary>
     ///     This method generates a example instance of this type

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using SyncStream.Documentation.Extensions;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Filter;
 
@@ -15,14 +16,22 @@ public static class SyncStreamExceptionApiServiceCollectionExtensions
     ///     This method fluidly registers the API Exceptions and their documentation filters with Swagger/ReDoc
     /// </summary>
     /// <param name="instance">The current instance of IServiceCollection</param>
+    /// <param name="options">Optional, Swagger/ReDoc documentation generation options</param>
     /// <returns>The current <paramref name="instance" /> of IServiceCollection</returns>
-    public static IServiceCollection UseSyncStreamExceptionDocumentation(this IServiceCollection instance) => instance
-        .AddSyncStreamDocumentationOperationFilter<ApiExceptionOperationFilter>()
-        .AddSyncStreamDocumentationExample<ApiException>()
-        .AddSyncStreamDocumentationExample<ApiExceptionBadRequest>()
-        .AddSyncStreamDocumentationExample<ApiExceptionFailedDependency>()
-        .AddSyncStreamDocumentationExample<ApiExceptionInternalServerError>()
-        .AddSyncStreamDocumentationExample<ApiExceptionMethodNotAllowed>()
-        .AddSyncStreamDocumentationExample<ApiExceptionNotFound>()
-        .AddSyncStreamDocumentationExample<ApiExceptionUnauthorized>();
+    public static IServiceCollection UseSyncStreamExceptionDocumentation(this IServiceCollection instance,
+        SwaggerGenOptions options = null)
+    {
+        // Add our operation filter to Swagger/ReDoc
+        options?.OperationFilter<ApiExceptionOperationFilter>();
+
+        // We're done, add the documentation examples to Swagger/ReDoc
+        return instance.AddSwaggerExamplesFromAssemblyOf<ApiException>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiException>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionBadRequest>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionFailedDependency>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionInternalServerError>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionMethodNotAllowed>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotFound>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnauthorized>();
+    }
 }

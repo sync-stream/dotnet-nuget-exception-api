@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -100,6 +101,13 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
     public HttpStatusCode Status { get; set; } = HttpStatusCode.InternalServerError;
 
     /// <summary>
+    ///     This property contains the internal stack trace string
+    /// </summary>
+    [JsonIgnore]
+    [XmlIgnore]
+    public sealed override string StackTrace => new StackTrace(this, fNeedFileInfo: true).ToString().Trim();
+
+    /// <summary>
     ///     This property contains the exception trace, if there is one
     /// </summary>
     [JsonPropertyName("trace")]
@@ -107,16 +115,57 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
     public List<ApiExceptionTrace> Trace { get; set; } = new();
 
     /// <summary>
-    ///     This method instantiates an API exception with an HTTP status
-    /// </summary>
-    /// <param name="status">The HTTP status of the exception</param>
-    protected ApiException(HttpStatusCode status) => Status = status;
-
-    /// <summary>
-    ///     This method instantiates an empty API exception
+    ///     This method instantiates an empty throwable API exception
     /// </summary>
     public ApiException()
     {
+    }
+
+    /// <summary>
+    ///     This method instantiates a throwable API exception with an HTTP <paramref name="status" />
+    /// </summary>
+    /// <param name="status">The HTTP status to send to the client</param>
+    public ApiException(HttpStatusCode status)
+    {
+        // Set the HTTP status code into the instance
+        Code = (int) status;
+
+        // Set the HTTP status into the instance
+        Status = status;
+    }
+
+    /// <summary>
+    ///     This method instantiates a throwable API exception with a <paramref name="message" /> and optional <paramref name="innerException" />
+    /// </summary>
+    /// <param name="message">The message describing what happened</param>
+    /// <param name="innerException">Optional, exception before this one</param>
+    public ApiException(string message, System.Exception innerException = null) : base(message)
+    {
+        // Check for an inner exception and set it
+        if (innerException is not null)
+            InnerException = innerException.GetType().IsSubclassOf(typeof(ApiException))
+                ? innerException as ApiException
+                : FromSystemException<ApiException>(innerException);
+
+        // Set the trace into the instance
+        Trace = StackTrace?.Split("\n", StringSplitOptions.TrimEntries).Select(t => new ApiExceptionTrace(t.Trim()))
+            .Where(t => t.IsValid()).ToList();
+    }
+
+    /// <summary>
+    ///     This method instantiates a throwable API exception with an HTTP <paramref name="status" />, <paramref name="message" /> and optional <paramref name="innerException" />
+    /// </summary>
+    /// <param name="status">The HTTP status to send to the browser</param>
+    /// <param name="message">The message describing what happened</param>
+    /// <param name="innerException">Optional, exception before this one</param>
+    public ApiException(HttpStatusCode status, string message, System.Exception innerException = null) : this(message,
+        innerException)
+    {
+        // Set the HTTP status code into the instance
+        Code = (int) status;
+
+        // Set the HTTP status into the instance
+        Status = status;
     }
 
     /// <summary>

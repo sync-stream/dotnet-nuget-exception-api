@@ -52,30 +52,27 @@ public class ApiExceptionOperationFilter : IOperationFilter
                 schema = context.SchemaGenerator.GenerateSchema(responseError.GetType(), context.SchemaRepository);
 
             // Define our response
-            OpenApiResponse response = new OpenApiResponse();
-
-            // Set the description into the response
-            response.Description =
-                $"**{schema.Title ?? responseError.GetType().Name}** - {responseError.Status.ToString()} - {schema.Description ?? responseError.Message}";
+            OpenApiResponse response = new OpenApiResponse
+            {
+                // Set the description into the response
+                Description =
+                    $"**{schema.Title ?? responseError.GetType().Name}** - {responseError.Status.ToString()} - {schema.Description ?? responseError.Message}"
+            };
 
             // Iterate over the content items in the response
             foreach (KeyValuePair<string, OpenApiMediaType> content in operation.Responses.First().Value.Content)
-            {
-                // Define our media type response
-                OpenApiMediaType mediaType = new OpenApiMediaType();
+                // Generate the media type
+                response.Content[content.Key] = new()
+                {
+                    // Generate our example
+                    Example = new OpenApiString(SerializerService.SerializePretty(responseError.GetExamples(),
+                        content.Key.ToLower().Equals(MediaTypeNames.Application.Xml.ToLower())
+                            ? SerializerFormat.Xml
+                            : SerializerFormat.Json)),
 
-                // Check the content-type for XML and generate an example
-                if (content.Key.ToLower().Equals(MediaTypeNames.Application.Xml.ToLower()))
-                    mediaType.Example =
-                        new OpenApiString(SerializerService.SerializePretty(responseError.GetExamples(),
-                            SerializerFormat.Xml));
-
-                // Set the schema into the media type
-                mediaType.Schema = schema;
-
-                // Add the content to the response
-                response.Content[content.Key] = mediaType;
-            }
+                    // Set the schema into the media type
+                    Schema = schema
+                };
 
             // Add the response to the operation
             operation.Responses[responseError.Code.ToString()] = response;
