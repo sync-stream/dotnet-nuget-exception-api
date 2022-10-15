@@ -1,5 +1,6 @@
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -7,7 +8,7 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 500 - Internal Server Error API error
 /// </summary>
-public class ApiExceptionInternalServerError : ApiException, IExamplesProvider<ApiExceptionInternalServerError>
+public class ApiExceptionInternalServerError : ApiException, IExamplesProvider<ApiExceptionModel>
 {
     /// <summary>
     ///     This method converts a system <paramref name="exception" /> to a 500 - Internal Server Error API error
@@ -38,6 +39,6 @@ public class ApiExceptionInternalServerError : ApiException, IExamplesProvider<A
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public new ApiExceptionInternalServerError GetExamples() =>
-        GetExamples<ApiExceptionInternalServerError>(HttpStatusCode.InternalServerError, "500 - Internal Server Error");
+    public override ApiExceptionModel GetExamples() =>
+        GetExamples(HttpStatusCode.InternalServerError, "500 - Internal Server Error");
 }

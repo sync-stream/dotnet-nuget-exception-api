@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Swashbuckle.AspNetCore.Filters;
 using SyncStream.Exception.Api.Model;
 
 // Define our namespace
@@ -11,10 +10,10 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the model structure for our API exception
 /// </summary>
-[XmlInclude(typeof(ApiExceptionTrace))]
-[XmlInclude(typeof(List<ApiExceptionTrace>))]
+[XmlInclude(typeof(ApiExceptionTraceModel))]
+[XmlInclude(typeof(List<ApiExceptionTraceModel>))]
 [XmlRoot("exception")]
-public class ApiException : System.Exception, IExamplesProvider<ApiException>
+public class ApiException : System.Exception
 {
     /// <summary>
     ///     This method converts a system exception into an API exception
@@ -24,31 +23,33 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
     /// <returns>The new API exception</returns>
     /// <typeparam name="TApiException">The final type expectation of the response</typeparam>
     public static TApiException FromSystemException<TApiException>(System.Exception exception,
-        HttpStatusCode status = HttpStatusCode.InternalServerError) where TApiException : ApiException, new() => new()
-    {
-        // Set the HTTP status code into the response
-        Code = (int) status,
+        HttpStatusCode status = HttpStatusCode.InternalServerError) where TApiException : ApiException =>
+        new ApiException
+        {
+            // Set the HTTP status code into the response
+            Code = (int) status,
 
-        // Set the data into the response
-        Data = exception.Data as Dictionary<string, object>,
+            // Set the data into the response
+            Data = exception.Data as Dictionary<string, object>,
 
-        // Set the inner exception into the response
-        InnerException = exception.InnerException is not null
-            ? FromSystemException<TApiException>(exception.InnerException, status)
-            : null,
+            // Set the inner exception into the response
+            InnerException = exception.InnerException is not null
+                ? FromSystemException<TApiException>(exception.InnerException, status)
+                : null,
 
-        // Set the exception message into the response
-        Message = exception.Message,
+            // Set the exception message into the response
+            Message = exception.Message,
 
-        // Set the HTTP status into the response
-        Status = status,
+            // Set the HTTP status into the response
+            Status = status,
 
-        // Set the exception trace into the response
-        Trace = !string.IsNullOrEmpty(exception.StackTrace) && !string.IsNullOrWhiteSpace(exception.StackTrace)
-            ? exception.StackTrace.Split("\n").Select(t => new ApiExceptionTrace(t.Trim())).Where(t => t.IsValid())
-                .ToList()
-            : new()
-    };
+            // Set the exception trace into the response
+            Trace = !string.IsNullOrEmpty(exception.StackTrace) && !string.IsNullOrWhiteSpace(exception.StackTrace)
+                ? exception.StackTrace.Split("\n").Select(t => new ApiExceptionTraceModel(t.Trim()))
+                    .Where(t => t.IsValid())
+                    .ToList()
+                : new()
+        } as TApiException;
 
     /// <summary>
     ///     This property contains the numeric value of the HTTP status code
@@ -112,7 +113,7 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
     /// </summary>
     [JsonPropertyName("trace")]
     [XmlElement("trace")]
-    public List<ApiExceptionTrace> Trace { get; set; } = new();
+    public List<ApiExceptionTraceModel> Trace { get; set; } = new();
 
     /// <summary>
     ///     This method instantiates an empty throwable API exception
@@ -148,7 +149,8 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
                 : FromSystemException<ApiException>(innerException);
 
         // Set the trace into the instance
-        Trace = StackTrace?.Split("\n", StringSplitOptions.TrimEntries).Select(t => new ApiExceptionTrace(t.Trim()))
+        Trace = StackTrace?.Split("\n", StringSplitOptions.TrimEntries)
+            .Select(t => new ApiExceptionTraceModel(t.Trim()))
             .Where(t => t.IsValid()).ToList();
     }
 
@@ -169,19 +171,40 @@ public class ApiException : System.Exception, IExamplesProvider<ApiException>
     }
 
     /// <summary>
-    ///     This method generates an example instance of this type for child inheritance
-    /// </summary>
-    /// <param name="status">The HTTP status code for the error</param>
-    /// <param name="message">The message to attach to the exception</param>
-    /// <typeparam name="TApiException">The expected type of the response</typeparam>
-    /// <returns>The example instance of type <typeparamref name="TApiException" /></returns>
-    protected TApiException GetExamples<TApiException>(HttpStatusCode status, string message)
-        where TApiException : ApiException, new() => FromSystemException<TApiException>(new(message), status);
-
-    /// <summary>
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public ApiException GetExamples() =>
-        GetExamples<ApiException>(HttpStatusCode.InternalServerError, "An Error Occurred");
+    protected ApiExceptionModel GetExamples(HttpStatusCode status, string message) =>
+        new ApiException(status, message).ToModel();
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    public virtual ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.InternalServerError, "API Error");
+
+    /// <summary>
+    ///     This method generates a serializable model from the instance
+    /// </summary>
+    /// <returns>The serializable model-representation of the instance</returns>
+    public ApiExceptionModel ToModel() => new()
+    {
+        // Set the HTTP status code into the response
+        Code = Code,
+
+        // Set the data into the response
+        Data = Data,
+
+        // Set the inner exception into the response
+        InnerException = InnerException?.ToModel(),
+
+        // Set the message into the response
+        Message = Message,
+
+        // Set the HTTP status into the response
+        Status = Status,
+
+        // Set the stack trace into the response
+        Trace = Trace
+    };
 }

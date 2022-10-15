@@ -1,5 +1,6 @@
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -7,7 +8,7 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 400 - Bad Request API error
 /// </summary>
-public class ApiExceptionBadRequest : ApiException, IExamplesProvider<ApiExceptionBadRequest>
+public class ApiExceptionBadRequest : ApiException, IExamplesProvider<ApiExceptionModel>
 {
     /// <summary>
     ///     This method converts a system <paramref name="exception" /> to a 400 - Bad Request API error
@@ -38,6 +39,5 @@ public class ApiExceptionBadRequest : ApiException, IExamplesProvider<ApiExcepti
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public new ApiExceptionBadRequest GetExamples() =>
-        GetExamples<ApiExceptionBadRequest>(HttpStatusCode.BadRequest, "400 - Bad Request");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.BadRequest, "400 - Bad Request");
 }

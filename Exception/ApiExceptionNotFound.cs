@@ -1,5 +1,6 @@
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -7,7 +8,7 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 404 - Not Found API error
 /// </summary>
-public class ApiExceptionNotFound : ApiException, IExamplesProvider<ApiExceptionNotFound>
+public class ApiExceptionNotFound : ApiException, IExamplesProvider<ApiExceptionModel>
 {
     /// <summary>
     ///     This method converts a system <paramref name="exception" /> to a 404 - Not Found API error
@@ -38,6 +39,5 @@ public class ApiExceptionNotFound : ApiException, IExamplesProvider<ApiException
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public new ApiExceptionNotFound GetExamples() =>
-        GetExamples<ApiExceptionNotFound>(HttpStatusCode.NotFound, "404 - Not Found");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.NotFound, "404 - Not Found");
 }

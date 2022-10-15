@@ -3,13 +3,13 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 // Define our namespace
-namespace SyncStream.Exception.Api.Exception;
+namespace SyncStream.Exception.Api.Model;
 
 /// <summary>
 /// This class maintains the response error structure for a trace
 /// </summary>
 [XmlRoot("exceptionTrace")]
-public class ApiExceptionTrace
+public class ApiExceptionTraceModel
 {
     /// <summary>
     ///     This property contains the class wherein the exception was triggered
@@ -56,7 +56,7 @@ public class ApiExceptionTrace
     /// <summary>
     ///     This method instantiates an empty API exception trace
     /// </summary>
-    public ApiExceptionTrace()
+    public ApiExceptionTraceModel()
     {
     }
 
@@ -64,7 +64,7 @@ public class ApiExceptionTrace
     ///     This method instantiates an API exception trace from an existing trace string
     /// </summary>
     /// <param name="traceString">The trace string from the exception</param>
-    public ApiExceptionTrace(string traceString)
+    public ApiExceptionTraceModel(string traceString)
     {
         // Instantiate our regular expression
         Regex pattern =

@@ -1,5 +1,6 @@
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -7,7 +8,7 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 405 - Method Not Allowed API error
 /// </summary>
-public class ApiExceptionMethodNotAllowed : ApiException, IExamplesProvider<ApiExceptionMethodNotAllowed>
+public class ApiExceptionMethodNotAllowed : ApiException, IExamplesProvider<ApiExceptionModel>
 {
     /// <summary>
     ///     This method converts a system <paramref name="exception" /> to a 405 - Method Not Allowed API error
@@ -38,6 +39,6 @@ public class ApiExceptionMethodNotAllowed : ApiException, IExamplesProvider<ApiE
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public new ApiExceptionMethodNotAllowed GetExamples() =>
-        GetExamples<ApiExceptionMethodNotAllowed>(HttpStatusCode.MethodNotAllowed, "405 - Method Not Allowed");
+    public override ApiExceptionModel GetExamples() =>
+        GetExamples(HttpStatusCode.MethodNotAllowed, "405 - Method Not Allowed");
 }

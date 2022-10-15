@@ -1,5 +1,6 @@
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -7,7 +8,7 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 401 - Unauthorized API error
 /// </summary>
-public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExceptionUnauthorized>
+public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExceptionModel>
 {
     /// <summary>
     ///     This method converts a system <paramref name="exception" /> to a 401 - Unauthorized API error
@@ -38,6 +39,5 @@ public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExcep
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public new ApiExceptionUnauthorized GetExamples() =>
-        GetExamples<ApiExceptionUnauthorized>(HttpStatusCode.Unauthorized, "401 - Unauthorized");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.Unauthorized, "401 - Unauthorized");
 }
