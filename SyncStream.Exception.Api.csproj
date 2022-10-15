@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Define our package's properties -->
+  <PropertyGroup>
+
+    <!-- Define our author -->
+    <Authors>syncstream-devops</Authors>
+
+    <!-- Define our authoring company -->
+    <Company>SyncStream Solutions</Company>
+
+    <!-- Describe the package -->
+    <Description>
+      This library provides unified API exceptions and handling
+    </Description>
+
+    <!-- Define our documentation file -->
+    <DocumentationFile>SyncStream.Exception.Api.xml</DocumentationFile>
+
+    <!-- Enable implicit imports -->
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Ignore these warnings -->
+    <NoWarn>NU1701;</NoWarn>
+
+    <!-- Disable nullable types -->
+    <Nullable>disable</Nullable>
+
+    <!-- Define the package's unique ID -->
+    <PackageId>SyncStream.Exception.Api</PackageId>
+
+    <!-- Define the package's licence -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <!-- Don't require licence acceptance to use -->
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <!-- Define our repository type -->
+    <RepositoryType>git</RepositoryType>
+    
+    <!-- Define the package's repository URL -->
+    <RepositoryUrl>https://github.com/sync-stream/dotnet-nuget-exception-api</RepositoryUrl>
+
+    <!-- Define our root namespace -->
+    <RootNamespace>SyncStream.Exception.Api</RootNamespace>
+
+    <!-- Define our target framework -->
+    <TargetFramework>net6.0</TargetFramework>
+
+    <!-- Define the package version -->
+    <Version>1.0.15</Version>
+    
+  </PropertyGroup>
+
+  <!-- Define the package's NuGet dependencies -->
+  <ItemGroup>
+
+    <!-- We'll need Swagger's filters -->
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.5" />
+    
+    <!-- We'll need our Swagger/ReDoc library -->
+    <PackageReference Include="SyncStream.Documentation" Version="1.0.30" />
+    
+    <!-- We'll need our serializer -->
+    <PackageReference Include="SyncStream.Serializer" Version="1.0.12" />
+    
+  </ItemGroup>
+
+  <!-- Include our assets -->
+  <ItemGroup>
+
+    <!-- We need to include our readme file -->
+    <Content Include="readme.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+
+  </ItemGroup>
+
+</Project>

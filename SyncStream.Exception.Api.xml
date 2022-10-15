@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SyncStream.Exception.Api</name>
+    </assembly>
+    <members>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiException">
+            <summary>
+                This class maintains the model structure for our API exception
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiException.FromSystemException``1(System.Exception,System.Net.HttpStatusCode)">
+            <summary>
+                This method converts a system exception into an API exception
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <param name="status">The HTTP status to assign to the API exception</param>
+            <returns>The new API exception</returns>
+            <typeparam name="TApiException">The final type expectation of the response</typeparam>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.Code">
+            <summary>
+                This property contains the numeric value of the HTTP status code
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.Data">
+            <summary>
+                This property contains the data associated with the exception
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.DataXml">
+            <summary>
+                This property contains the xml-serializable data associated with the exception
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.InnerException">
+            <summary>
+                This property contains the inner exception, if one occurred
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.Message">
+            <summary>
+                This property contains the textual message describing what happened
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.Status">
+            <summary>
+                This property contains the HTTP status code
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiException.Trace">
+            <summary>
+                This property contains the exception trace, if there is one
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiException.#ctor(System.Net.HttpStatusCode)">
+            <summary>
+                This method instantiates an API exception with an HTTP status
+            </summary>
+            <param name="status">The HTTP status of the exception</param>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiException.#ctor">
+            <summary>
+                This method instantiates an empty API exception
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiException.GetExamples``1(System.Net.HttpStatusCode,System.String)">
+            <summary>
+                This method generates an example instance of this type for child inheritance
+            </summary>
+            <param name="status">The HTTP status code for the error</param>
+            <param name="message">The message to attach to the exception</param>
+            <typeparam name="TApiException">The expected type of the response</typeparam>
+            <returns>The example instance of type <typeparamref name="TApiException" /></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiException.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionBadRequest">
+            <summary>
+                This class maintains the structure of our 400 - Bad Request API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionBadRequest.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 400 - Bad Request API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionBadRequest.#ctor">
+            <summary>
+                This method instantiates an empty 400 - Bad Request API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionBadRequest.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionFailedDependency">
+            <summary>
+                This class maintains the structure of our 424 - Failed Dependency API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionFailedDependency.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 424 - Failed Dependency API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionFailedDependency.#ctor">
+            <summary>
+                This method instantiates an empty 405 - Method Not Allowed API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionFailedDependency.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionInternalServerError">
+            <summary>
+                This class maintains the structure of our 500 - Internal Server Error API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionInternalServerError.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 500 - Internal Server Error API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionInternalServerError.#ctor">
+            <summary>
+                This method instantiates an empty 500 - Internal Server Error API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionInternalServerError.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionMethodNotAllowed">
+            <summary>
+                This class maintains the structure of our 405 - Method Not Allowed API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionMethodNotAllowed.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 405 - Method Not Allowed API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionMethodNotAllowed.#ctor">
+            <summary>
+                This method instantiates an empty 405 - Method Not Allowed API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionMethodNotAllowed.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionNotFound">
+            <summary>
+                This class maintains the structure of our 404 - Not Found API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionNotFound.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 404 - Not Found API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionNotFound.#ctor">
+            <summary>
+                This method instantiates an empty 404 - Not Found API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionNotFound.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionTrace">
+            <summary>
+            This class maintains the response error structure for a trace
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.Class">
+            <summary>
+                This property contains the class wherein the exception was triggered
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.File">
+            <summary>
+                This property contains the file in wherein the exception was triggered
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.Line">
+            <summary>
+                This property contains the line on which the exception was triggered
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.Namespace">
+            <summary>
+                This property contains the namespace wherein the exception was triggered
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.Method">
+            <summary>
+                This property contains the method wherein the exception was triggered
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Exception.ApiExceptionTrace.Source">
+            <summary>
+                This property contains the source trace string
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionTrace.#ctor">
+            <summary>
+                This method instantiates an empty API exception trace
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionTrace.#ctor(System.String)">
+            <summary>
+                This method instantiates an API exception trace from an existing trace string
+            </summary>
+            <param name="traceString">The trace string from the exception</param>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionTrace.IsValid">
+            <summary>
+            T   his method determines whether or not the trace entry is valid
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Exception.ApiExceptionUnauthorized">
+            <summary>
+                This class maintains the structure of our 401 - Unauthorized API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionUnauthorized.FromSystemException(System.Exception)">
+            <summary>
+                This method converts a system <paramref name="exception" /> to a 401 - Unauthorized API error
+            </summary>
+            <param name="exception">The system exception to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionUnauthorized.#ctor">
+            <summary>
+                This method instantiates an empty 404 - Not Found API error
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Exception.ApiExceptionUnauthorized.GetExamples">
+            <summary>
+                This method generates a example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Extensions.SyncStreamExceptionApiApplicationBuilderExtensions">
+            <summary>
+                This class maintains our API Exception extensions for IApplicationBuilder
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Extensions.SyncStreamExceptionApiApplicationBuilderExtensions.UseSyncStreamExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Boolean)">
+            <summary>
+                This method registers the SyncStream Global Exception handler that catches and
+                serialized exceptions without the need for explicit try/catch statements
+            </summary>
+            <param name="instance">The current instance of IApplicationBuilder</param>
+            <param name="suppressTracing">Optional, denotes whether the trace list should be cleared before writing the response</param>
+            <returns>The current <paramref name="instance" /> of IApplicationBuilder</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Extensions.SyncStreamExceptionApiServiceCollectionExtensions">
+            <summary>
+                This class maintains the structure of our IServiceCollection extensions
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Extensions.SyncStreamExceptionApiServiceCollectionExtensions.UseSyncStreamExceptionDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                This method fluidly registers the API Exceptions and their documentation filters with Swagger/ReDoc
+            </summary>
+            <param name="instance">The current instance of IServiceCollection</param>
+            <returns>The current <paramref name="instance" /> of IServiceCollection</returns>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Filter.ApiExceptionOperationFilter">
+            <summary>
+            This class maintains our XML example serializer filter for Swagger
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Filter.ApiExceptionOperationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            This method generates XML examples using our serializer
+            </summary>
+            <param name="operation"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2">
+            <summary>
+                This class maintains the model structure for a serializable dictionary key/value pair
+            </summary>
+            <typeparam name="TKey">The expected type of the key</typeparam>
+            <typeparam name="TValue">The expected type of the value</typeparam>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.FromDictionary(System.Collections.Generic.Dictionary{`0,`1})">
+            <summary>
+                This method converts a dictionary to a list of serializable key/value pairs
+            </summary>
+            <param name="dictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.Key">
+            <summary>
+                This property contains the key for the value
+            </summary>
+        </member>
+        <member name="P:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.Value">
+            <summary>
+                This property contains the value
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.#ctor">
+            <summary>
+                This method instantiates an empty serializable key/value pair
+            </summary>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.#ctor(`0,`1)">
+            <summary>
+                This method instantiates a serializable key/value pair with a <paramref name="key" /> and <paramref name="value" />
+            </summary>
+            <param name="key">The key for the pair</param>
+            <param name="value">The value for the pair</param>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.#ctor(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+                This method instantiates a serializable key/value pair from n existing <paramref name="keyValuePair" />
+            </summary>
+            <param name="keyValuePair">The existing key/value pair</param>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.GetExamples">
+            <summary>
+                This method generates an example instance of this type
+            </summary>
+            <returns>The example instance of this type</returns>
+        </member>
+        <member name="M:SyncStream.Exception.Api.Model.SerializableKeyValuePairModel`2.ToKeyValuePair">
+            <summary>
+                This method converts the instance to a key/value pair
+            </summary>
+            <returns>The standard key/value pair</returns>
+        </member>
+    </members>
+</doc>
