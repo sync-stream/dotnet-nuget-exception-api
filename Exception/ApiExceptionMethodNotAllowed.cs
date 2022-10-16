@@ -40,5 +40,5 @@ public class ApiExceptionMethodNotAllowed : ApiException, IExamplesProvider<ApiE
     /// </summary>
     /// <returns>The example instance of this type</returns>
     public override ApiExceptionModel GetExamples() =>
-        GetExamples(HttpStatusCode.MethodNotAllowed, "405 - Method Not Allowed");
+        GetExamples(HttpStatusCode.MethodNotAllowed, "Method Not Allowed");
 }

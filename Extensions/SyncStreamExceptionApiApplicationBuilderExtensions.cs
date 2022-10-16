@@ -27,21 +27,10 @@ public static class SyncStreamExceptionApiApplicationBuilderExtensions
         IExceptionHandlerPathFeature exceptionFeature = context.Features.Get<IExceptionHandlerPathFeature>();
 
         // Localize the exception
-        System.Exception exception = exceptionFeature?.Error;
+        System.Exception exception = exceptionFeature?.Error ?? new("An Unknown Error Occurred");
 
         // Define our response
-        ApiException response;
-
-        // Check for an empty exception and ensure we have a response
-        if (exception == null)
-            response = ApiExceptionInternalServerError.FromSystemException(new("An Unknown Error Occurred"));
-
-        // Check for a standard exception
-        else if (!exception.GetType().IsSubclassOf(typeof(ApiException)))
-            response = ApiExceptionInternalServerError.FromSystemException(exception);
-
-        // Otherwise, use the exception from the feature
-        else response = exception as ApiExceptionInternalServerError;
+        ApiException response = ApiException.FromSystemException(exception);
 
         // Define our XML media types
         List<string> xmlMediaTypes = new() {MediaTypeNames.Application.Xml, MediaTypeNames.Application.Json};
@@ -66,8 +55,8 @@ public static class SyncStreamExceptionApiApplicationBuilderExtensions
 
         // Send the content-type header
         context.Response.ContentType = xmlMediaTypes.Contains(contentType)
-            ? "application/problem+xml"
-            : "application/problem+json";
+            ? MediaTypeNames.Application.Xml
+            : MediaTypeNames.Application.Json;
 
         // Set the status code into the response
         context.Response.StatusCode = response?.Code ?? 500;

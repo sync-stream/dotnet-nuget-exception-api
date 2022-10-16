@@ -39,5 +39,5 @@ public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExcep
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.Unauthorized, "401 - Unauthorized");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.Unauthorized, "Unauthorized");
 }

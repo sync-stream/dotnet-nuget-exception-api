@@ -40,5 +40,5 @@ public class ApiExceptionFailedDependency : ApiException, IExamplesProvider<ApiE
     /// </summary>
     /// <returns>The example instance of this type</returns>
     public override ApiExceptionModel GetExamples() =>
-        GetExamples(HttpStatusCode.FailedDependency, "424 - Failed Dependency");
+        GetExamples(HttpStatusCode.FailedDependency, "Failed Dependency");
 }

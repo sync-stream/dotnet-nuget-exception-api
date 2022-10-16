@@ -39,5 +39,5 @@ public class ApiExceptionNotFound : ApiException, IExamplesProvider<ApiException
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.NotFound, "404 - Not Found");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.NotFound, "Not Found");
 }

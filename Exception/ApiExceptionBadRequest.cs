@@ -39,5 +39,5 @@ public class ApiExceptionBadRequest : ApiException, IExamplesProvider<ApiExcepti
     ///     This method generates a example instance of this type
     /// </summary>
     /// <returns>The example instance of this type</returns>
-    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.BadRequest, "400 - Bad Request");
+    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.BadRequest, "Bad Request");
 }

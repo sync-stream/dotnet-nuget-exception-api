@@ -40,5 +40,5 @@ public class ApiExceptionInternalServerError : ApiException, IExamplesProvider<A
     /// </summary>
     /// <returns>The example instance of this type</returns>
     public override ApiExceptionModel GetExamples() =>
-        GetExamples(HttpStatusCode.InternalServerError, "500 - Internal Server Error");
+        GetExamples(HttpStatusCode.InternalServerError, "Internal Server Error");
 }

@@ -21,10 +21,15 @@ public class ApiException : System.Exception
     /// <param name="exception">The system exception to convert</param>
     /// <param name="status">The HTTP status to assign to the API exception</param>
     /// <returns>The new API exception</returns>
-    /// <typeparam name="TApiException">The final type expectation of the response</typeparam>
-    public static TApiException FromSystemException<TApiException>(System.Exception exception,
-        HttpStatusCode status = HttpStatusCode.InternalServerError) where TApiException : ApiException =>
-        new ApiException
+    public static ApiException FromSystemException(System.Exception exception,
+        HttpStatusCode status = HttpStatusCode.InternalServerError)
+    {
+        // Check the exception instance for an API exception and simply return it
+        if (exception.GetType().IsSubclassOf(typeof(ApiException)) || exception is ApiException)
+            return exception as ApiException;
+
+        // We're done, Generate the new exception
+        return new()
         {
             // Set the HTTP status code into the response
             Code = (int) status,
@@ -34,7 +39,7 @@ public class ApiException : System.Exception
 
             // Set the inner exception into the response
             InnerException = exception.InnerException is not null
-                ? FromSystemException<TApiException>(exception.InnerException, status)
+                ? FromSystemException(exception.InnerException, status)
                 : null,
 
             // Set the exception message into the response
@@ -49,7 +54,19 @@ public class ApiException : System.Exception
                     .Where(t => t.IsValid())
                     .ToList()
                 : new()
-        } as TApiException;
+        };
+    }
+
+    /// <summary>
+    ///     This method converts a system exception into an API exception
+    /// </summary>
+    /// <param name="exception">The system exception to convert</param>
+    /// <param name="status">The HTTP status to assign to the API exception</param>
+    /// <returns>The new API exception</returns>
+    /// <typeparam name="TApiException">The final type expectation of the response</typeparam>
+    public static TApiException FromSystemException<TApiException>(System.Exception exception,
+        HttpStatusCode status = HttpStatusCode.InternalServerError) where TApiException : ApiException =>
+        FromSystemException(exception, status) as TApiException;
 
     /// <summary>
     ///     This property contains the numeric value of the HTTP status code
@@ -148,8 +165,11 @@ public class ApiException : System.Exception
                 ? innerException as ApiException
                 : FromSystemException<ApiException>(innerException);
 
+        // Set the message into the instance
+        Message = message;
+
         // Set the trace into the instance
-        Trace = StackTrace?.Split("\n", StringSplitOptions.TrimEntries)
+        Trace = base.StackTrace?.Split("\n", StringSplitOptions.TrimEntries)
             .Select(t => new ApiExceptionTraceModel(t.Trim()))
             .Where(t => t.IsValid()).ToList();
     }
@@ -175,7 +195,7 @@ public class ApiException : System.Exception
     /// </summary>
     /// <returns>The example instance of this type</returns>
     protected ApiExceptionModel GetExamples(HttpStatusCode status, string message) =>
-        new ApiException(status, message).ToModel();
+        new ApiException(status, message, new System.Exception("Example Inner Exception")).ToModel();
 
     /// <summary>
     ///

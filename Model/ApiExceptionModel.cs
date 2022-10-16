@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using Microsoft.OpenApi.Any;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Model;
@@ -24,7 +25,7 @@ public class ApiExceptionModel
     /// </summary>
     [JsonPropertyName("data")]
     [XmlIgnore]
-    public new Dictionary<string, object> Data { get; set; } = new();
+    public Dictionary<string, object> Data { get; set; } = new();
 
     /// <summary>
     ///     This property contains the xml-serializable data associated with the exception
