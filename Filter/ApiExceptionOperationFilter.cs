@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Model;
 using SyncStream.Serializer;
 
@@ -20,25 +19,34 @@ public class ApiExceptionOperationFilter : IOperationFilter
     /// <summary>
     ///     This property contains our exceptions
     /// </summary>
-    private static List<ApiExceptionModel> Exceptions => new()
+    private static List<ApiExceptionModel> ExceptionModels => new()
     {
         // Add our 400 - Bad Request
-        new ApiExceptionBadRequest().GetExamples(),
+        new ApiExceptionBadRequestModel().GetExamples(),
 
         // Add our 401 - Unauthorized
-        new ApiExceptionUnauthorized().GetExamples(),
+        new ApiExceptionUnauthorizedModel().GetExamples(),
 
         // Add our 404 - Not found
-        new ApiExceptionNotFound().GetExamples(),
+        new ApiExceptionNotFoundModel().GetExamples(),
 
         // Add our 405 - Method Not Allowed
-        new ApiExceptionMethodNotAllowed().GetExamples(),
+        new ApiExceptionMethodNotAllowedModel().GetExamples(),
+
+        // Add our 406 - Not Acceptable
+        new ApiExceptionNotAcceptableModel().GetExamples(),
+
+        // Add our 415 - Unsupported Media Type
+        new ApiExceptionUnsupportedMediaTypeModel().GetExamples(),
 
         // Add our 424 - Dependency Failed
-        new ApiExceptionFailedDependency().GetExamples(),
+        new ApiExceptionFailedDependencyModel().GetExamples(),
 
         // Add our 500 - Internal Server Error
-        new ApiExceptionInternalServerError().GetExamples()
+        new ApiExceptionInternalServerErrorModel().GetExamples(),
+
+        // Add our 501 - Not Implemented
+        new ApiExceptionNotImplementedModel().GetExamples()
     };
 
     /// <summary>
@@ -49,7 +57,7 @@ public class ApiExceptionOperationFilter : IOperationFilter
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         // Iterate over the API exceptions
-        foreach (ApiExceptionModel model in Exceptions)
+        foreach (ApiExceptionModel model in ExceptionModels)
         {
             // Check the include-unauthorized flag and add the error
             if (model.Status is HttpStatusCode.Unauthorized &&

@@ -1,7 +1,9 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Microsoft.OpenApi.Any;
+using Microsoft.AspNetCore.Diagnostics;
+using SyncStream.Exception.Api.Exception;
+using SyncStream.Exception.Api.Extensions;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Model;
@@ -9,9 +11,19 @@ namespace SyncStream.Exception.Api.Model;
 /// <summary>
 ///     This class maintains the API model structure for our exceptions
 /// </summary>
+[XmlInclude(typeof(SerializableKeyValuePairModel<string, object>))]
 [XmlInclude(typeof(ApiExceptionTraceModel))]
+[XmlInclude(typeof(ApiExceptionBadRequestModel))]
+[XmlInclude(typeof(ApiExceptionFailedDependencyModel))]
+[XmlInclude(typeof(ApiExceptionInternalServerErrorModel))]
+[XmlInclude(typeof(ApiExceptionMethodNotAllowedModel))]
+[XmlInclude(typeof(ApiExceptionNotAcceptableModel))]
+[XmlInclude(typeof(ApiExceptionNotFoundModel))]
+[XmlInclude(typeof(ApiExceptionNotImplementedModel))]
+[XmlInclude(typeof(ApiExceptionUnauthorizedModel))]
+[XmlInclude(typeof(ApiExceptionUnsupportedMediaTypeModel))]
 [XmlRoot("exception")]
-public class ApiExceptionModel
+public abstract class ApiExceptionModel : IExceptionHandlerFeature
 {
     /// <summary>
     ///     This property contains the numeric value of the HTTP status code
@@ -26,6 +38,13 @@ public class ApiExceptionModel
     [JsonPropertyName("data")]
     [XmlIgnore]
     public Dictionary<string, object> Data { get; set; } = new();
+
+    /// <summary>
+    ///     This property contains the original exception the model is generated from
+    /// </summary>
+    [JsonIgnore]
+    [XmlIgnore]
+    public System.Exception Error { get; }
 
     /// <summary>
     ///     This property contains the xml-serializable data associated with the exception
@@ -69,4 +88,58 @@ public class ApiExceptionModel
     [JsonPropertyName("trace")]
     [XmlElement("trace")]
     public List<ApiExceptionTraceModel> Trace { get; set; } = new();
+
+    /// <summary>
+    ///     This method instantiates an empty model
+    /// </summary>
+    public ApiExceptionModel()
+    {
+    }
+
+    /// <summary>
+    ///     This method instantiates a model with an HTTP <paramref name="status" />
+    /// </summary>
+    /// <param name="status">The HTTP status to send to the client</param>
+    public ApiExceptionModel(HttpStatusCode status)
+    {
+        // Set the HTTP status code into the instance
+        Code = (int) status;
+
+        // Set the HTTP status into the instance
+        Status = status;
+    }
+
+    /// <summary>
+    ///     This method instantiates a model from an existing <paramref name="exception" /> with optional HTTP <paramref name="status" />
+    /// </summary>
+    /// <param name="exception">The exception to generate the model from</param>
+    /// <param name="status">Optional, HTTP status to send to the client</param>
+    protected ApiExceptionModel(System.Exception exception, HttpStatusCode status = HttpStatusCode.InternalServerError)
+    {
+        // Set the HTTP status code into the instance
+        Code = exception.GetType().IsSubclassOf(typeof(ApiException))
+            ? (exception as ApiException)?.Code ?? (int) status
+            : (int) status;
+
+        // Set the data into the instance
+        Data = exception.Data as Dictionary<string, object>;
+
+        // Set the error into the instance
+        Error = exception;
+
+        // Set the inner exception into the instance
+        InnerException = exception.InnerException?.ToSyncStreamApiExceptionModel(status);
+
+        // Set the message into the instance
+        Message = exception.Message;
+
+        // Set the HTTP status into the instance
+        Status = exception.GetType().IsSubclassOf(typeof(ApiException))
+            ? (exception as ApiException)?.Status ?? status
+            : status;
+
+        // Set the trace into the instance
+        Trace = exception.StackTrace?.Split("\n", StringSplitOptions.TrimEntries)
+            .Select(t => new ApiExceptionTraceModel(t.Trim())).Where(t => t.IsValid()).ToList();
+    }
 }

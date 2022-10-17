@@ -1,6 +1,4 @@
 using System.Net;
-using Swashbuckle.AspNetCore.Filters;
-using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -8,20 +6,20 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 401 - Unauthorized API error
 /// </summary>
-public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExceptionModel>
+public class ApiExceptionUnauthorized : ApiException
 {
-    /// <summary>
-    ///     This method converts a system <paramref name="exception" /> to a 401 - Unauthorized API error
-    /// </summary>
-    /// <param name="exception">The system exception to convert</param>
-    /// <returns></returns>
-    public static ApiExceptionUnauthorized FromSystemException(System.Exception exception) =>
-        ApiException.FromSystemException<ApiExceptionUnauthorized>(exception, HttpStatusCode.Unauthorized);
-
     /// <summary>
     ///     This method instantiates an empty 404 - Not Found API error
     /// </summary>
     public ApiExceptionUnauthorized() : base(HttpStatusCode.Unauthorized)
+    {
+    }
+
+    /// <summary>
+    ///     This method instantiates a 401 - Unauthorized API exception from an existing exception
+    /// </summary>
+    /// <param name="exception">The existing exception</param>
+    public ApiExceptionUnauthorized(System.Exception exception) : base(HttpStatusCode.Unauthorized, exception)
     {
     }
 
@@ -34,10 +32,4 @@ public class ApiExceptionUnauthorized : ApiException, IExamplesProvider<ApiExcep
         HttpStatusCode.Unauthorized, message, innerException)
     {
     }
-
-    /// <summary>
-    ///     This method generates a example instance of this type
-    /// </summary>
-    /// <returns>The example instance of this type</returns>
-    public override ApiExceptionModel GetExamples() => GetExamples(HttpStatusCode.Unauthorized, "Unauthorized");
 }

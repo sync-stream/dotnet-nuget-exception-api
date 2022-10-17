@@ -1,6 +1,4 @@
 using System.Net;
-using Swashbuckle.AspNetCore.Filters;
-using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Exception;
@@ -8,20 +6,20 @@ namespace SyncStream.Exception.Api.Exception;
 /// <summary>
 ///     This class maintains the structure of our 424 - Failed Dependency API error
 /// </summary>
-public class ApiExceptionFailedDependency : ApiException, IExamplesProvider<ApiExceptionModel>
+public class ApiExceptionFailedDependency : ApiException
 {
-    /// <summary>
-    ///     This method converts a system <paramref name="exception" /> to a 424 - Failed Dependency API error
-    /// </summary>
-    /// <param name="exception">The system exception to convert</param>
-    /// <returns></returns>
-    public static ApiExceptionFailedDependency FromSystemException(System.Exception exception) =>
-        ApiException.FromSystemException<ApiExceptionFailedDependency>(exception, HttpStatusCode.FailedDependency);
-
     /// <summary>
     ///     This method instantiates a empty throwable 405 - Method Not Allowed API error
     /// </summary>
     public ApiExceptionFailedDependency() : base(HttpStatusCode.FailedDependency)
+    {
+    }
+
+    /// <summary>
+    ///     This method instantiates a 424 - Failed Dependency API exception from an existing exception
+    /// </summary>
+    /// <param name="exception">The existing exception</param>
+    public ApiExceptionFailedDependency(System.Exception exception) : base(HttpStatusCode.FailedDependency, exception)
     {
     }
 
@@ -34,11 +32,4 @@ public class ApiExceptionFailedDependency : ApiException, IExamplesProvider<ApiE
         HttpStatusCode.FailedDependency, message, innerException)
     {
     }
-
-    /// <summary>
-    ///     This method generates a example instance of this type
-    /// </summary>
-    /// <returns>The example instance of this type</returns>
-    public override ApiExceptionModel GetExamples() =>
-        GetExamples(HttpStatusCode.FailedDependency, "Failed Dependency");
 }

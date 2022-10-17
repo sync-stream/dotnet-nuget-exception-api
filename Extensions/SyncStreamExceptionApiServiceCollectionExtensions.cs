@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Filter;
+using SyncStream.Exception.Api.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Extensions;
@@ -25,13 +25,17 @@ public static class SyncStreamExceptionApiServiceCollectionExtensions
         options?.OperationFilter<ApiExceptionOperationFilter>();
 
         // We're done, add the documentation examples to Swagger/ReDoc
-        return instance.AddSwaggerExamplesFromAssemblyOf<ApiException>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiException>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionBadRequest>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionFailedDependency>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionInternalServerError>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionMethodNotAllowed>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotFound>()
-            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnauthorized>();
+        return instance
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionTraceModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionBadRequestModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionFailedDependencyModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionInternalServerErrorModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionMethodNotAllowedModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotAcceptableModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotFoundModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotImplementedModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnauthorizedModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnsupportedMediaTypeModel>();
     }
 }
