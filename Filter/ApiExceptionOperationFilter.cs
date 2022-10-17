@@ -36,6 +36,12 @@ public class ApiExceptionOperationFilter : IOperationFilter
         // Add our 406 - Not Acceptable
         new ApiExceptionNotAcceptableModel().GetExamples(),
 
+        // Add our 408 - Request Timeout
+        new ApiExceptionRequestTimeoutModel().GetExamples(),
+
+        // Add our 409 - Conflict
+        new ApiExceptionConflictModel().GetExamples(),
+
         // Add our 415 - Unsupported Media Type
         new ApiExceptionUnsupportedMediaTypeModel().GetExamples(),
 

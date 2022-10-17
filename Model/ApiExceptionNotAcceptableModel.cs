@@ -23,7 +23,7 @@ public class ApiExceptionNotAcceptableModel : ApiExceptionModel, IExamplesProvid
     /// <param name="exception">The exception to generate the model from</param>
     public ApiExceptionNotAcceptableModel(System.Exception exception) : base(exception, HttpStatusCode.NotAcceptable) =>
         InnerException = exception.InnerException is not null
-            ? new ApiExceptionNotFoundModel(exception.InnerException)
+            ? new ApiExceptionNotAcceptableModel(exception.InnerException)
             : null;
 
     /// <summary>

@@ -23,7 +23,7 @@ public class ApiExceptionUnsupportedMediaTypeModel : ApiExceptionModel,
     /// <param name="exception">The exception to generate the model from</param>
     public ApiExceptionUnsupportedMediaTypeModel(System.Exception exception) :
         base(exception, HttpStatusCode.UnsupportedMediaType) => InnerException = exception.InnerException is not null
-        ? new ApiExceptionUnauthorizedModel(exception.InnerException)
+        ? new ApiExceptionUnsupportedMediaTypeModel(exception.InnerException)
         : null;
 
     /// <summary>

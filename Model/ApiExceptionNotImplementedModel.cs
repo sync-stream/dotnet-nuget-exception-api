@@ -22,7 +22,7 @@ public class ApiExceptionNotImplementedModel : ApiExceptionModel, IExamplesProvi
     /// <param name="exception">The exception to generate the model from</param>
     public ApiExceptionNotImplementedModel(System.Exception exception) :
         base(exception, HttpStatusCode.NotImplemented) => InnerException = exception.InnerException is not null
-        ? new ApiExceptionNotFoundModel(exception.InnerException)
+        ? new ApiExceptionNotImplementedModel(exception.InnerException)
         : null;
 
     /// <summary>

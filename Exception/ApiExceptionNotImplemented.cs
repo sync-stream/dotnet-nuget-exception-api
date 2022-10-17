@@ -29,7 +29,7 @@ public class ApiExceptionNotImplemented : ApiException
     /// <param name="message">The message describing what happened</param>
     /// <param name="innerException">Optional, exception before this one</param>
     public ApiExceptionNotImplemented(string message, System.Exception innerException = null) : base(
-        HttpStatusCode.NotAcceptable, message, innerException)
+        HttpStatusCode.NotImplemented, message, innerException)
     {
     }
 }

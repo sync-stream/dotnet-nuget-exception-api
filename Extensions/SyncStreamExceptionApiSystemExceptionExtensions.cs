@@ -23,6 +23,9 @@ public static class SyncStreamExceptionApiSystemExceptionExtensions
         // Add our 400 - Bad Request
         HttpStatusCode.BadRequest => new ApiExceptionBadRequest(instance),
 
+        // Add our 409 - Conflict
+        HttpStatusCode.Conflict => new ApiExceptionConflict(instance),
+
         // Add our 424 - Failed Dependency
         HttpStatusCode.FailedDependency => new ApiExceptionFailedDependency(instance),
 
@@ -37,6 +40,9 @@ public static class SyncStreamExceptionApiSystemExceptionExtensions
 
         // Add our 501 - Not Implemented
         HttpStatusCode.NotImplemented => new ApiExceptionNotImplemented(instance),
+
+        // Add our 408 - Request Timeout
+        HttpStatusCode.RequestTimeout => new ApiExceptionRequestTimeout(instance),
 
         // Add our 401 - Unauthorized
         HttpStatusCode.Unauthorized => new ApiExceptionUnauthorized(instance),
@@ -61,6 +67,9 @@ public static class SyncStreamExceptionApiSystemExceptionExtensions
         // Add our 400 - Bad Request
         HttpStatusCode.BadRequest => new ApiExceptionBadRequestModel(instance),
 
+        // Add our 409 - Conflict
+        HttpStatusCode.Conflict => new ApiExceptionConflictModel(instance),
+
         // Add our 424 - Failed Dependency
         HttpStatusCode.FailedDependency => new ApiExceptionFailedDependencyModel(instance),
 
@@ -75,6 +84,9 @@ public static class SyncStreamExceptionApiSystemExceptionExtensions
 
         // Add our 501 - Not Implemented
         HttpStatusCode.NotImplemented => new ApiExceptionNotImplementedModel(instance),
+
+        // Add our 408 - Request Timeout
+        HttpStatusCode.RequestTimeout => new ApiExceptionRequestTimeoutModel(instance),
 
         // Add our 401 - Unauthorized
         HttpStatusCode.Unauthorized => new ApiExceptionUnauthorizedModel(instance),

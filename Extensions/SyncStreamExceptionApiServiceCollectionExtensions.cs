@@ -29,12 +29,14 @@ public static class SyncStreamExceptionApiServiceCollectionExtensions
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionTraceModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionBadRequestModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionConflictModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionFailedDependencyModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionInternalServerErrorModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionMethodNotAllowedModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotAcceptableModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotFoundModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionNotImplementedModel>()
+            .AddSwaggerExamplesFromAssemblyOf<ApiExceptionRequestTimeoutModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnauthorizedModel>()
             .AddSwaggerExamplesFromAssemblyOf<ApiExceptionUnsupportedMediaTypeModel>();
     }
