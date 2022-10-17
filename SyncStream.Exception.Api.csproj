@@ -48,7 +48,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <!-- Define the package version -->
-    <Version>1.0.23</Version>
+    <Version>1.0.24</Version>
 
   </PropertyGroup>
 
