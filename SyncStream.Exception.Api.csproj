@@ -48,7 +48,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <!-- Define the package version -->
-    <Version>1.1.2</Version>
+    <Version>1.1.4</Version>
 
   </PropertyGroup>
 
@@ -65,7 +65,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
 
     <!-- We'll need our serializer -->
-    <PackageReference Include="SyncStream.Serializer" Version="1.1.2" />
+    <PackageReference Include="SyncStream.Serializer" Version="1.1.4" />
 
   </ItemGroup>
 
