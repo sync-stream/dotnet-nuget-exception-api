@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
 using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Extensions;
+using SyncStream.Serializer.Model;
 
 // Define our namespace
 namespace SyncStream.Exception.Api.Model;
