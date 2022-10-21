@@ -78,23 +78,24 @@ public class ApiExceptionOperationFilter : IOperationFilter
             OpenApiResponse response = new OpenApiResponse
             {
                 // Set the description into the response
-                Description = $"**{model.GetType().Name}** - {model.Status.ToString()} - {model.Message}"
+                Description = $"**{model.GetType().Name}** - {model.Status.ToString()} - {model.Message}",
             };
 
             // Iterate over the content items in the response
             foreach (KeyValuePair<string, OpenApiMediaType> content in operation.Responses.First().Value.Content)
-                response.Content[content.Key] = new()
-                {
-                    // Set the example into the schema
-                    Example = new OpenApiString(
-                        SerializerService.SerializePretty(model,
-                            content.Key.ToLower() is MediaTypeNames.Application.Xml
-                                ? SerializerFormat.Xml
-                                : SerializerFormat.Json), true, content.Key is MediaTypeNames.Application.Json),
+            {
+                // Localize our OpenAPI media type with a schema reference
+                OpenApiMediaType mediaType = new() {Schema = new() {Reference = schema.Reference}};
 
-                    // Set the schema into the media type
-                    Schema = schema
-                };
+                // Check for XML and generate an example
+                if (content.Key.ToLower() is MediaTypeNames.Application.Xml)
+                    mediaType.Example = new OpenApiString(string.Join(Environment.NewLine,
+                        SerializerService.SerializePretty(model, SerializerFormat.Xml).Split(Environment.NewLine)
+                            .Skip(1)));
+
+                // Add the media type to the operation
+                response.Content[content.Key] = mediaType;
+            }
 
             // Add the response to the operation
             operation.Responses[model.Code.ToString()] = response;

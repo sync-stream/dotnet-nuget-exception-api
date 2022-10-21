@@ -1,7 +1,10 @@
 using System.Net;
 using System.Text.Json.Serialization;
+using System.Web.Http.Description;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Extensions;
 using SyncStream.Serializer.Model;
@@ -81,6 +84,7 @@ public abstract class ApiExceptionModel : IExceptionHandlerFeature
     /// <summary>
     ///     This property contains the HTTP status code
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     [JsonPropertyName("status")]
     [XmlAttribute("status")]
     public HttpStatusCode Status { get; set; } = HttpStatusCode.InternalServerError;
