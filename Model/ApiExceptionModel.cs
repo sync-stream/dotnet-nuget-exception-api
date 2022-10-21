@@ -1,10 +1,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
-using System.Web.Http.Description;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.Filters;
 using SyncStream.Exception.Api.Exception;
 using SyncStream.Exception.Api.Extensions;
 using SyncStream.Serializer.Model;
